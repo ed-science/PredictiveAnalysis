@@ -15,17 +15,16 @@ from stemming.porter import stem
 def word_in_text(word, text):
     word = word.lower()
     text = text.lower()
-    match = re.search(word, text)
-    if match:
+    if match := re.search(word, text):
         return True
     return False
 
 
 def review_to_words( raw_review ):  
-    letters_only = re.sub("[^a-zA-Z]", " ", raw_review) 
-    words = letters_only.lower().split()                             
-    stops = set(stopwords.words("english"))    
-    meaningful_words = [w for w in words if not w in stops]  
+    letters_only = re.sub("[^a-zA-Z]", " ", raw_review)
+    words = letters_only.lower().split()
+    stops = set(stopwords.words("english"))
+    meaningful_words = [w for w in words if w not in stops]
     filtered_words = [stem(word) for word in meaningful_words if word not in stops]
     return( " ".join( filtered_words ))
 
