@@ -18,20 +18,12 @@ tweets = pd.DataFrame()
 
 tweets['text'] = map(lambda tweet: tweet['text'], tweets_data)
 
-# Open/create a file to append data to
-csvFile = open('data/testData.tsv', 'a')
+with open('data/testData.tsv', 'a') as csvFile:
+    #Use csv writer
+    csvWriter = csv.writer(csvFile,delimiter='\t', quoting=csv.QUOTE_ALL)
 
-#Use csv writer
-csvWriter = csv.writer(csvFile,delimiter='\t', quoting=csv.QUOTE_ALL)
+    csvWriter.writerow(["id","text"])
 
-count = 0
-
-csvWriter.writerow(["id","text"])
-
-for tweet in tweets['text']:
-    # Write a row to the CSV file. I use encode UTF-8
-    csvWriter.writerow([count + 1,tweet.encode('utf-8')])
-    #print tweet.encode('utf-8')
-    #print "\n"
-    count += 1
-csvFile.close()
+    for count, tweet in enumerate(tweets['text']):
+        # Write a row to the CSV file. I use encode UTF-8
+        csvWriter.writerow([count + 1,tweet.encode('utf-8')])
